@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Igor
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: teachers
+      changes:
+        - createTable:
+            tableName: teachers
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(20)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: email
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_admin
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: updated_at
+                  type: datetime
+
+  - changeSet:
+      id: 2
+      author: Igor
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: students
+      changes:
+        - createTable:
+            tableName: students
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(250)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: updated_at
+                  type: datetime
+
