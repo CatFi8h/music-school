@@ -19,6 +19,7 @@ public class TeacherRequestDto {
 	private  String email;
 	@NotBlank(message="Phone is required")
 	private  String phone;
+	private Boolean isAdmin;
 	
 	public TeacherRequestDto(String name, String surname, String type, String email, String phone) {
 		this.name = name;

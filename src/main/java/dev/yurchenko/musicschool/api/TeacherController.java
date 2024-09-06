@@ -1,9 +1,11 @@
 package dev.yurchenko.musicschool.api;
 
 import dev.yurchenko.musicschool.api.model.request.TeacherRequestDto;
+import dev.yurchenko.musicschool.api.model.response.TeacherCreatedResponseDto;
 import dev.yurchenko.musicschool.service.TeacherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +20,10 @@ public class TeacherController {
 	
 	@PostMapping("/teacher")
 	public ResponseEntity<?> createNewTeacher(@Valid @RequestBody TeacherRequestDto requestDto) {
-		teacherService.createTeacher(requestDto);
-		return ResponseEntity.ok().build();
+		
+		Long teacherId = teacherService.createTeacher(requestDto);
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
+				       .body(new TeacherCreatedResponseDto(teacherId));
 	}
 	
 	@GetMapping("/teachers")

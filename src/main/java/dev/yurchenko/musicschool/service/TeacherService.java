@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface TeacherService {
-	String createTeacher(TeacherRequestDto requestDto);
+	Long createTeacher(TeacherRequestDto requestDto);
 }

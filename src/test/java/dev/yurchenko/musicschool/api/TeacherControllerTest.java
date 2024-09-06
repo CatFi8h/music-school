@@ -16,6 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -28,20 +29,22 @@ class TeacherControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-//	@Disabled
 	@Test()
 	public void testCreateTeacher() throws Exception {
 		
 		TeacherRequestDto teacherRequestDto = new TeacherRequestDto("name", "surname", "vocal", "email@email.com", "12353243");
-		when(teacherService.createTeacher(any())).thenReturn("success");
+		long teacherId = 1L;
+		when(teacherService.createTeacher(any())).thenReturn(teacherId);
 		ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		String str = objectWriter.writeValueAsString(teacherRequestDto);
-		System.out.println(str);
+		
 		mockMvc.perform(post("/teacher")
 				                .contentType(MediaType.APPLICATION_JSON)
 				                .content(str))
-				.andExpect(status().isOk());
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(teacherId));
 	}
+	
 	@Test()
 	public void testGetTeacher() throws Exception {
 	
