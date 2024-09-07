@@ -1,6 +1,30 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 1.1
+      author: Igor
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: teacher_type
+      changes:
+        - createTable:
+            tableName: teacher_type
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 1.2
       author: Igor
       preConditions:
         - onFail: MARK_RAN
@@ -39,10 +63,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: type
-                  type: varchar(20)
+                  name: teacher_type_id
+                  type: bigint
                   constraints:
                     nullable: false
+                    foreignKeyName: fk_teacher_type_id
+                    references: teacher_type(id)
               - column:
                   name: is_admin
                   type: boolean
@@ -56,7 +82,7 @@ databaseChangeLog:
                   type: datetime
 
   - changeSet:
-      id: 2
+      id: 1.3
       author: Igor
       preConditions:
         - onFail: MARK_RAN
@@ -100,4 +126,37 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   type: datetime
+  - changeSet:
+      id: 1.4
+      author: Igor
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: teacher_students
+      changes:
+        - createTable:
+            tableName: teacher_students
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: teacher_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_teacher_id
+                    references: teachers(id)
+              - column:
+                  name: student_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_student_id
+                    references: students(id)
 

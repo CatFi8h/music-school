@@ -5,6 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +33,9 @@ public class TeacherEntity {
 	private String phone;
 	@Column(name = "is_admin")
 	private Boolean isAdmin;
+	@ManyToOne
+	@JoinColumn(name="teacher_type_id", nullable=false)
+	private TeacherTypeEntity type;
 	@Column(name = "created_at")
 	private Date createdAt;
 	@Column(name = "updated_at")

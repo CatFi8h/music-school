@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2.1
+      author: Igor
+      changes:
+        - insert:
+            tableName: teacher_type
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: "Type Name"
+        - insert:
+            tableName: teachers
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: first_name
+                  value: "First Name"
+              - column:
+                  name: last_name
+                  value: "First Name"
+              - column:
+                  name: email
+                  value: "First Name"
+              - column:
+                  name: phone
+                  value: "First Name"
+              - column:
+                  name: teacher_type_id
+                  value: 1
+              - column:
+                  name: is_admin
+                  value: true
+              - column:
+                  name: created_at
+                  value: NOW()
+              - column:
+                  name: updated_at
+                  value: NOW()
