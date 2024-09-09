@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import dev.yurchenko.musicschool.api.model.request.TeacherRequestDto;
 import dev.yurchenko.musicschool.api.model.response.TeacherResponseDto;
-import dev.yurchenko.musicschool.service.TeacherServiceImpl;
+import dev.yurchenko.musicschool.service.impl.TeacherServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

@@ -2,6 +2,7 @@ package dev.yurchenko.musicschool.api.model.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -12,7 +13,7 @@ public class TeacherRequestDto {
 	private String firstName;
 	@Size(max = 20, message = "The surname must be from 3 to 20 characters.")
 	private String lastName;
-	@NotBlank(message = "Type is required")
+	@NotNull(message = "Type is required")
 	private Long type;
 	@NotBlank(message = "Email is required")
 	@Email(message = "The email is not a valid email.")

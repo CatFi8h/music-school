@@ -10,7 +10,7 @@ databaseChangeLog:
                   name: id
                   value: 1
               - column:
-                  name: name
+                  name: type_name
                   value: "Type Name"
         - insert:
             tableName: teachers

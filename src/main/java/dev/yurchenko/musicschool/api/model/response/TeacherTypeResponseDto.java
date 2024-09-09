@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @AllArgsConstructor
 @Builder
 @Getter
 @Setter
-public class TeacherCreatedResponseDto {
-	private Long id;
+public class TeacherTypeResponseDto {
+	Long id;
+	String name;
 }

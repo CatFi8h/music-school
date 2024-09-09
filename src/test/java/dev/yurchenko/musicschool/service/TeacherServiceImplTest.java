@@ -3,6 +3,7 @@ package dev.yurchenko.musicschool.service;
 import dev.yurchenko.musicschool.api.model.request.TeacherRequestDto;
 import dev.yurchenko.musicschool.api.model.response.TeacherResponseDto;
 import dev.yurchenko.musicschool.repository.TeacherRepository;
+import dev.yurchenko.musicschool.repository.TeacherTypeRepository;
 import dev.yurchenko.musicschool.repository.entities.TeacherEntity;
 import dev.yurchenko.musicschool.repository.entities.TeacherTypeEntity;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,8 @@ class TeacherServiceImplTest {
 	private TeacherService teacherService;
 	@MockBean
 	private TeacherRepository teacherRepository;
+	@MockBean
+	private TeacherTypeRepository teacherTypeRepository;
 	
 	@Test
 	public void testServiceCreateTeacher() {
@@ -39,6 +42,8 @@ class TeacherServiceImplTest {
 		teacherEntity.setId(1L);
 		when(teacherRepository.save(any(TeacherEntity.class)))
 				.thenReturn(teacherEntity);
+		when(teacherTypeRepository.findById(anyLong()))
+				.thenReturn(Optional.of(new TeacherTypeEntity()));
 		
 		Long teacherId = teacherService.createTeacher(teacherRequestDto);
 		
@@ -71,13 +76,30 @@ class TeacherServiceImplTest {
 		assertEquals(teacherEntity.getLastName(), teacherResponseDto.getLastName());
 		assertEquals(teacherEntity.getEmail(), teacherResponseDto.getEmail());
 		assertEquals(teacherEntity.getPhone(), teacherResponseDto.getPhone());
-		assertEquals(teacherEntity.getType().getName(), teacherResponseDto.getType());
+		assertEquals(teacherEntity.getType().getTypeName(), teacherResponseDto.getType());
+	}
+	
+	@Test
+	public void testUpdateTeacherById() {
+		TeacherRequestDto teacherRequestDto = new TeacherRequestDto("name", "surname", 1L, "email@email.com", "12353243");
+		TeacherEntity teacherEntity = getTeacherEntity();
+		
+		when(teacherRepository.findById(anyLong()))
+				.thenReturn(Optional.of(teacherEntity));
+		when(teacherRepository.save(any(TeacherEntity.class)))
+				.thenReturn(teacherEntity);
+		when(teacherTypeRepository.findById(anyLong()))
+				.thenReturn(Optional.of(getTeacherTypeEntity()));
+		
+		Long teacherId = teacherService.updateTeacher(1L, teacherRequestDto);
+		assertNotNull(teacherId);
+		
 	}
 	
 	private TeacherTypeEntity getTeacherTypeEntity() {
 		TeacherTypeEntity type = new TeacherTypeEntity();
 		type.setId(1L);
-		type.setName("Type_name");
+		type.setTypeName("Type_name");
 		return type;
 	}
 	
