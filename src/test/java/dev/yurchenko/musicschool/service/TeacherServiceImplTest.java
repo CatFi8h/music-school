@@ -34,7 +34,7 @@ class TeacherServiceImplTest {
 	
 	@Test
 	public void testServiceCreateTeacher() {
-		TeacherRequestDto teacherRequestDto = new TeacherRequestDto("name", "surname", "vocal", "email@email.com", "12353243");
+		TeacherRequestDto teacherRequestDto = new TeacherRequestDto("name", "surname", 1L, "email@email.com", "12353243");
 		TeacherEntity teacherEntity = new TeacherEntity();
 		teacherEntity.setId(1L);
 		when(teacherRepository.save(any(TeacherEntity.class)))
@@ -47,8 +47,6 @@ class TeacherServiceImplTest {
 	
 	@Test
 	void testGetAllTeachers() {
-		TeacherRequestDto teacherReqDto = new TeacherRequestDto("name", "surname", "vocal", "email@email.com", "12353243");
-		
 		ArrayList<TeacherEntity> teacherEntities = new ArrayList<>();
 		teacherEntities.add(getTeacherEntity());
 		when(teacherRepository.findAll(any(Pageable.class)))
@@ -69,8 +67,8 @@ class TeacherServiceImplTest {
 		assertTrue(teacherById.isPresent());
 		TeacherResponseDto teacherResponseDto = teacherById.get();
 		assertEquals(teacherEntity.getId(), teacherResponseDto.getId());
-		assertEquals(teacherEntity.getName(), teacherResponseDto.getName());
-		assertEquals(teacherEntity.getSurname(), teacherResponseDto.getSurname());
+		assertEquals(teacherEntity.getFirstName(), teacherResponseDto.getFirstName());
+		assertEquals(teacherEntity.getLastName(), teacherResponseDto.getLastName());
 		assertEquals(teacherEntity.getEmail(), teacherResponseDto.getEmail());
 		assertEquals(teacherEntity.getPhone(), teacherResponseDto.getPhone());
 		assertEquals(teacherEntity.getType().getName(), teacherResponseDto.getType());
@@ -86,8 +84,8 @@ class TeacherServiceImplTest {
 	private TeacherEntity getTeacherEntity() {
 		TeacherEntity teacher = new TeacherEntity();
 		teacher.setId(1L);
-		teacher.setName("name");
-		teacher.setSurname("surname");
+		teacher.setFirstName("name");
+		teacher.setLastName("surname");
 		teacher.setEmail("email@email.com");
 		teacher.setType(getTeacherTypeEntity());
 		teacher.setPhone("12353243");

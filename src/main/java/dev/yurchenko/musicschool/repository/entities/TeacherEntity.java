@@ -7,8 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,9 +22,9 @@ public class TeacherEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name = "first_name")
-	private String name;
+	private String firstName;
 	@Column(name = "last_name")
-	private String surname;
+	private String lastName;
 	@Column(name="email")
 	private String email;
 	@Column(name = "phone")

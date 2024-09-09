@@ -3,7 +3,9 @@ package dev.yurchenko.musicschool.service;
 import dev.yurchenko.musicschool.api.model.request.TeacherRequestDto;
 import dev.yurchenko.musicschool.api.model.response.TeacherResponseDto;
 import dev.yurchenko.musicschool.repository.TeacherRepository;
+import dev.yurchenko.musicschool.repository.TeacherTypeRepository;
 import dev.yurchenko.musicschool.repository.entities.TeacherEntity;
+import dev.yurchenko.musicschool.repository.entities.TeacherTypeEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class TeacherServiceImpl implements TeacherService {
 	
 	private final TeacherRepository teacherRepository;
+	private final TeacherTypeRepository teacherTypeRepository;
 	
 	@Override
 	public Long createTeacher(TeacherRequestDto requestDto) {
@@ -33,19 +36,47 @@ public class TeacherServiceImpl implements TeacherService {
 	@Override
 	public Page<TeacherResponseDto> getAllTeachers(Pageable pageable) {
 		return teacherRepository.findAll(pageable)
-		.map(this::mapEntityToTeacherResponseDto);
+				       .map(this::mapEntityToTeacherResponseDto);
 	}
 	
 	@Override
 	public Optional<TeacherResponseDto> getTeacherById(Long id) {
 		return teacherRepository.findById(id)
-		.map(this::mapEntityToTeacherResponseDto);
+				       .map(this::mapEntityToTeacherResponseDto);
+	}
+	
+	@Override
+	public Long updateTeacher(Long id, TeacherRequestDto requestDto) {
+		Optional<TeacherEntity> teacherOpt = teacherRepository.findById(id);
+		if (teacherOpt.isPresent()) {
+			TeacherEntity teacherEntity = teacherOpt.get();
+			teacherEntity.setUpdatedAt(new Date(System.currentTimeMillis()));
+			if (requestDto.getType() != null) {
+				Optional<TeacherTypeEntity> typeOpt = teacherTypeRepository.findById(requestDto.getType());
+				typeOpt.ifPresent(teacherEntity::setType);
+			}
+			if (requestDto.getFirstName() != null) {
+				teacherEntity.setFirstName(requestDto.getFirstName());
+			}
+			if (requestDto.getLastName() != null) {
+				teacherEntity.setLastName(requestDto.getLastName());
+			}
+			if (requestDto.getEmail() != null) {
+				teacherEntity.setEmail(requestDto.getEmail());
+			}
+			if (requestDto.getPhone() != null) {
+				teacherEntity.setPhone(requestDto.getPhone());
+			}
+			TeacherEntity saved = teacherRepository.save(teacherEntity);
+			return saved.getId();
+		}
+		throw new IllegalArgumentException("Teacher with id " + id + " not found");
 	}
 	
 	private TeacherEntity mapTeacherRequestDtoToEntity(TeacherRequestDto requestDto) {
 		TeacherEntity teacherEntity = new TeacherEntity();
-		teacherEntity.setName(requestDto.getName());
-		teacherEntity.setSurname(requestDto.getSurname());
+		teacherEntity.setFirstName(requestDto.getFirstName());
+		teacherEntity.setLastName(requestDto.getLastName());
 		teacherEntity.setEmail(requestDto.getEmail());
 		teacherEntity.setPhone(requestDto.getPhone());
 		teacherEntity.setIsAdmin(requestDto.getIsAdmin());
@@ -54,12 +85,12 @@ public class TeacherServiceImpl implements TeacherService {
 	
 	private TeacherResponseDto mapEntityToTeacherResponseDto(TeacherEntity teacherEntity) {
 		return TeacherResponseDto.builder()
-				.id(teacherEntity.getId())
-				.name(teacherEntity.getName())
-				.surname(teacherEntity.getSurname())
-				.email(teacherEntity.getEmail())
-				.phone(teacherEntity.getPhone())
-				.type(teacherEntity.getType().getName())
-				.build();
+				       .id(teacherEntity.getId())
+				       .firstName(teacherEntity.getFirstName())
+				       .lastName(teacherEntity.getLastName())
+				       .email(teacherEntity.getEmail())
+				       .phone(teacherEntity.getPhone())
+				       .type(teacherEntity.getType().getName())
+				       .build();
 	}
 }

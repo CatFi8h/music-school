@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 public class TeacherResponseDto {
 	private Long id;
-	private String name;
-	private String surname;
+	private String firstName;
+	private String lastName;
 	private String type;
 	private String email;
 	private String phone;
