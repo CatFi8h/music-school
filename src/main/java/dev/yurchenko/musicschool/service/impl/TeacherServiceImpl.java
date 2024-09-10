@@ -2,6 +2,7 @@ package dev.yurchenko.musicschool.service.impl;
 
 import dev.yurchenko.musicschool.api.model.request.TeacherRequestDto;
 import dev.yurchenko.musicschool.api.model.response.TeacherResponseDto;
+import dev.yurchenko.musicschool.repository.StudentRepository;
 import dev.yurchenko.musicschool.repository.TeacherRepository;
 import dev.yurchenko.musicschool.repository.TeacherTypeRepository;
 import dev.yurchenko.musicschool.repository.entities.TeacherEntity;
@@ -24,6 +25,7 @@ public class TeacherServiceImpl implements TeacherService {
 	private final TeacherRepository teacherRepository;
 	private final TeacherTypeRepository teacherTypeRepository;
 	private final TeacherMapper teacherMapper;
+	private final StudentRepository studentRepository;
 	
 	@Override
 	public Long createTeacher(TeacherRequestDto requestDto) {
@@ -75,6 +77,9 @@ public class TeacherServiceImpl implements TeacherService {
 			}
 			if (requestDto.getPhone() != null) {
 				teacherEntity.setPhone(requestDto.getPhone());
+			}
+			if(requestDto.getStudents() != null && !requestDto.getStudents().isEmpty()) {
+				teacherEntity.setStudents(studentRepository.findAllById(requestDto.getStudents()));
 			}
 			TeacherEntity saved = teacherRepository.save(teacherEntity);
 			return saved.getId();

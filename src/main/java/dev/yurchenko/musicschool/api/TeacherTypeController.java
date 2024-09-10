@@ -2,7 +2,6 @@ package dev.yurchenko.musicschool.api;
 
 import dev.yurchenko.musicschool.api.model.request.TeacherTypeRequestDto;
 import dev.yurchenko.musicschool.api.model.response.TeacherTypeCreatedResponseDto;
-import dev.yurchenko.musicschool.api.model.response.TeacherTypeResponseDto;
 import dev.yurchenko.musicschool.service.TeacherTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

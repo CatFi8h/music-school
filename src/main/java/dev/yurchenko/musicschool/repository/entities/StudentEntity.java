@@ -1,17 +1,15 @@
 package dev.yurchenko.musicschool.repository.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,34 +19,27 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="teachers")//
-public class TeacherEntity {
+@Table(name = "students")
+public class StudentEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
-	@Column(name="email")
+	@Column(name = "email")
 	private String email;
-	@Column(name = "phone")
+	@Column(name = "phone", nullable = false)
 	private String phone;
-	@Column(name = "is_admin")
-	private Boolean isAdmin;
-	@ManyToOne
-	@JoinColumn(name="teacher_type_id", nullable=false)
-	private TeacherTypeEntity type;
-	@Column(name = "created_at")
+	@Column(name = "created_at", nullable = false)
 	private Date createdAt;
-	@Column(name = "updated_at")
+	@Column(name = "updated_at", nullable = false)
 	private Date updatedAt;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany
 	@JoinTable(
 			name = "teacher_students",
-			joinColumns = @JoinColumn(name = "teacher_id"),
-			inverseJoinColumns = @JoinColumn(name = "student_id"))
-	private List<StudentEntity> students;
-	
+			joinColumns = @JoinColumn(name = "student_id"),
+			inverseJoinColumns = @JoinColumn(name = "teacher_id"))
+	private List<TeacherEntity> teachers;
 }
